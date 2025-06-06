@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+
+<component name="org.nuxeo.ecm.document.pageproviders.extended">
+<require>org.nuxeo.ecm.document.pageproviders</require>
+
+  <extension target="org.nuxeo.ecm.platform.query.api.PageProviderService" point="providers">
+
+    <coreQueryPageProvider name="advanced_document_content">
+      <trackUsage>true</trackUsage>
+      <property name="maxResults">DEFAULT_NAVIGATION_RESULTS</property>
+      <searchDocumentType>AdvancedContent</searchDocumentType>
+      <whereClause>
+        <fixedPart>
+          ecm:isVersion = 0 AND
+          ecm:mixinType !=
+          'HiddenInNavigation'
+        </fixedPart>
+        <predicate parameter="dc:title" operator="FULLTEXT">
+          <field schema="advanced_content" name="title" />
+        </predicate>
+        <predicate parameter="ecm:parentId" operator="=">
+          <field schema="advanced_content" name="ecm_parentId" />
+        </predicate>
+        <predicate parameter="ecm:isTrashed" operator="=">
+          <field schema="advanced_content" name="ecm_trashed" />
+        </predicate>
+      </whereClause>
+      <aggregates>
+        <aggregate id="dc_nature_agg" type="terms" parameter="dc:nature">
+          <field schema="advanced_content" name="dc_nature_agg" />
+          <properties>
+            <property name="size">10</property>
+          </properties>
+        </aggregate>
+        <aggregate id="dc_coverage_agg" type="terms" parameter="dc:coverage">
+          <field schema="advanced_content" name="dc_coverage_agg" />
+          <properties>
+            <property name="size">10</property>
+          </properties>
+        </aggregate>
+        <aggregate id="dc_subjects_agg" type="terms" parameter="dc:subjects">
+          <field schema="advanced_content" name="dc_subjects_agg" />
+          <properties>
+            <property name="size">10</property>
+          </properties>
+        </aggregate>
+        <aggregate id="dc_last_contributor_agg" type="terms" parameter="dc:lastContributor">
+          <field schema="advanced_content" name="dc_last_contributor_agg" />
+          <properties>
+            <property name="size">10</property>
+          </properties>
+        </aggregate>
+        <aggregate id="dc_modified_agg" type="date_range" parameter="dc:modified">
+          <field schema="advanced_content" name="dc_modified_agg" />
+          <properties>
+            <property name="format">"dd-MM-yyyy"</property>
+          </properties>
+          <dateRanges>
+            <dateRange key="last24h" fromDate="now-24H" toDate="now"/>
+            <dateRange key="lastWeek" fromDate="now-7d" toDate="now-24H"/>
+            <dateRange key="lastMonth" fromDate="now-1M" toDate="now-7d"/>
+            <dateRange key="lastYear" fromDate="now-1y" toDate="now-1M"/>
+            <dateRange key="priorToLastYear" toDate="now-1y"/>
+          </dateRanges>
+        </aggregate>
+      </aggregates>
+      <sort column="dc:modified" ascending="false" />
+      <pageSize>20</pageSize>
+    </coreQueryPageProvider>
+
+  </extension>
+
+</component>

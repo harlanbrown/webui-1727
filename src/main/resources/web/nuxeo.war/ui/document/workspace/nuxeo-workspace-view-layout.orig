@@ -1,0 +1,77 @@
+<!--
+`nuxeo-workspace-view-layout`
+@group Nuxeo UI
+@element nuxeo-workspace-view-layout
+-->
+<dom-module id="nuxeo-workspace-view-layout">
+  <template>
+    <style include="nuxeo-styles">
+      :host {
+        display: block;
+      }
+
+      *[role=widget] {
+        padding: 5px;
+      }
+
+      .results {
+        @apply --layout-vertical;
+        @apply --layout-flex;
+        min-height: var(--nuxeo-document-content-min-height, calc(100vh - 216px - var(--nuxeo-app-top)));
+        margin-bottom: var(--nuxeo-document-content-margin-bottom, 0);
+      }
+
+      .results.dragging{
+        border: 2px dashed var(--nuxeo-primary-color);
+      }
+
+      .ellipsis {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        display: block;
+        width: calc(100% - 38px);
+      }
+
+      .capitalize {
+        text-transform: capitalize;
+      }
+
+      nuxeo-tag {
+        margin-right: 2px;
+      }
+
+      nuxeo-justified-grid {
+        height: calc(100vh - 10em);
+      }
+
+    </style>
+    <nuxeo-page-provider id="nxProvider" provider="advanced_document_content" page-size="40" aggregations="" enrichers="thumbnail, permissions" params="[[params]]" schemas="dublincore,common,uid,file" headers='{ "X-NXfetch.document": "properties", "X-NXtranslate.directoryEntry": "label" }' fetch-aggregates></nuxeo-page-provider>
+
+    <nuxeo-document-viewer role="widget" document="[[document]]"></nuxeo-document-viewer>
+
+    <nuxeo-document-attachments role="widget" document="[[document]]"></nuxeo-document-attachments>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'nuxeo-workspace-view-layout',
+      behaviors: [Nuxeo.DocumentContentBehavior],
+      properties: {
+
+        /**
+         * @doctype Workspace
+         */
+        document: {
+          type: Object,
+        },
+
+      },
+
+      _navigate: function(e) {
+        this.fire('navigate', { doc: (e.model || e.detail).item, index: (e.model || e.detail).index });
+      }
+    });
+  </script>
+</dom-module>
