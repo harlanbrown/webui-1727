@@ -5,15 +5,13 @@
 
   <extension target="org.nuxeo.ecm.core.schema.TypeService" point="schema">
     <schema name="advanced_content" src="schemas/advanced_content.xsd"
-      prefix="advanced_content" />
+      prefix="advanced_content" override="true" />
   </extension>
 
   <extension target="org.nuxeo.ecm.core.schema.TypeService" point="doctype">
-
     <doctype name="AdvancedContent" extends="Document">
       <schema name="advanced_content" />
     </doctype>
-
   </extension>
 
 </component>
