@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.nuxeo</groupId>
     <artifactId>nuxeo-parent</artifactId>
-    <version>2025.3.22</version>
+    <version>2023.31.17</version>
   </parent>
   <groupId>org.nuxeo.sample</groupId>
   <artifactId>webui-1727</artifactId>
