@@ -5,6 +5,6 @@ This bundle includes a custom version of the advanced_document_content page prov
 
 Directions
  * install Nuxeo with 'nuxeo-csv'
- * build this (mvn install) and place webui-1727-2023.31.16.jar in nxserver/bundles
+ * build this (mvn install) and place webui-1727-2023.31.17.jar in nxserver/bundles
  * create a workspace and import data.csv
  * observe data table columns with aggregation data
